@@ -1,12 +1,10 @@
 const Task = require('../models/Task');
-//------------------get all tasks---------------------------------------------
+
 const getTasks = async (req, res, next) => {
   try {
     const rawSearch = req.query.search ? String(req.query.search).trim().toLowerCase() : '';
     const status = req.query.status ? String(req.query.status).trim() : '';
 
-    // Step 1: fetch tasks from DB
-    // If status provided, filter by status in DB. Otherwise get all.
     let tasks;
     if (status) {
       tasks = await Task.find({ status }).sort('-createdAt').exec();
@@ -14,7 +12,6 @@ const getTasks = async (req, res, next) => {
       tasks = await Task.find().sort('-createdAt').exec();
     }
 
-    // Step 2: if search provided, filter in JavaScript (simple substring match)
     if (rawSearch) {
       tasks = tasks.filter((task) => {
         const title = task.title ? String(task.title).toLowerCase() : '';
@@ -27,7 +24,7 @@ const getTasks = async (req, res, next) => {
     next(err);
   }
 };
-//------------------get task by id---------------------------------------------
+
 const getTaskById = async (req, res, next) => {
   try {
     const id = req.params.id;

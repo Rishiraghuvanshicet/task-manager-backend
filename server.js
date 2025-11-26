@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -33,15 +32,12 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 
-// CORS - allow frontend
 const corsOptions = {
   origin: function (origin, callback) {
-    // In development, allow all origins
     if (process.env.NODE_ENV === 'development') {
       return callback(null, true);
     }
     
-    // In production, use CLIENT_ORIGIN or allow specific origins
     const allowedOrigins = process.env.CLIENT_ORIGIN 
       ? process.env.CLIENT_ORIGIN.split(',')
       : [
@@ -52,7 +48,6 @@ const corsOptions = {
           'http://localhost:5175',
         ];
     
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
@@ -68,10 +63,8 @@ app.get('/', (req, res) => {
   res.send('Task Manager API is running');
 });
 
-// API routes
 app.use('/api/tasks', taskRoutes);
 
-// 404 and error handlers
 app.use(notFound);
 app.use(errorHandler);
 
