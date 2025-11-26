@@ -45,6 +45,7 @@ const corsOptions = {
     const allowedOrigins = process.env.CLIENT_ORIGIN 
       ? process.env.CLIENT_ORIGIN.split(',')
       : [
+          'https://task-manager-frontend-tawny-psi.vercel.app',
           'http://localhost:3000',
           'http://localhost:5173',
           'http://localhost:5174',
